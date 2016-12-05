@@ -86,7 +86,9 @@ public class hp extends JFrame {
         		gui g = new gui();
 
 					g.open();
+					g.open1();
 				    System.out.println(g.houses);
+				//g.accHolder = g.accounts.get(0);
 
 
 
@@ -97,10 +99,10 @@ public class hp extends JFrame {
 
 				//displayProperties();
 
-				JFrame f = new JFrame("dd");
+				JFrame f = new JFrame("Property Search");
 				JTextArea area = new JTextArea();
                 f.setVisible(true);
-                f.setSize(400,200);
+                f.setSize(300,200);
 				Container contentPane = getContentPane();
 				contentPane.setBackground (Color.white);
 				contentPane.setLayout(null);
@@ -109,14 +111,15 @@ public class hp extends JFrame {
                 f.setLocationRelativeTo(null);
                 f.setDefaultCloseOperation( EXIT_ON_CLOSE );
 
-
-        	   	 JLabel nameLabel = new JLabel("Enter Num of prefered Bedrooms:1-4");
+				 JLabel lab = new JLabel("Please enter both fields!!");
+				 f.add(lab);
+        	   	 JLabel nameLabel = new JLabel("Enter prefered Num of Bedrooms:");
         	   	 f.add(nameLabel);
         	   	 numOfRoomsField = new JTextField(4);
         		 f.add(numOfRoomsField);
 				 numOfRoomsField.addActionListener(new submitListener());
 
-                 JLabel bankLabel = new JLabel("Enter Max Price Range:$300-----$1000");
+                 JLabel bankLabel = new JLabel("Enter Max Allowance(from $220)");
                  f.add(bankLabel);
 				 priceRangeField = new JTextField(4);
                  f.add(priceRangeField);
@@ -156,12 +159,14 @@ public class hp extends JFrame {
 		}
 		private void searchProp(String priceRange ,String numBeds  )
 		{
-			JTextArea ar = new JTextArea();
+
+			JTextArea ar = new JTextArea("          Always new Properties");
 			for (int i=0;i < gui.houses.size();i++)
 			      {
 				    if (gui.houses.get(i).getRent() <= Integer.parseInt(priceRange) && gui.houses.get(i).getBeds() >= Integer.parseInt(numBeds))
-					ar.append(String.valueOf(gui.houses.get(i).toString()));
-				   //ar.append("\nProperty no: " + i + 1 + " " + gui.houses.get(i).toString() + "\n");
+					//ar.append(String.valueOf(gui.houses.get(i).toString()));
+				   ar.append("\nProperty no: " + (i + 1) + " " + gui.houses.get(i).toString() + "\n");
+
 			      } //JOptionPane.showMessageDialog(null,"Nothing available");
 			         JOptionPane.showMessageDialog(null, ar);
 			       //gui.houses.get(i).toString();
@@ -191,7 +196,7 @@ public class hp extends JFrame {
         img.setVisible(true);
         
         img.setTitle("VFM Properties");
-    	img.setSize(700,400);
+    	img.setSize(400,400);
     	img.setLocationRelativeTo(null);
     	img.setResizable(false);
         img.setDefaultCloseOperation( EXIT_ON_CLOSE );
