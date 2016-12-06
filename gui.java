@@ -30,10 +30,11 @@ public class gui extends JFrame implements ActionListener{
      JButton bal;
      Tenant tenant;
      accountHolder accHolder;
-     double landLordBalance=0;
-	public Properties  s1,s2,s3,s4,s5,s6;
+	 double landLordBalance;
+
+	 public Properties  s1,s2,s3,s4,s5,s6;
      public static ArrayList <Properties> houses = new ArrayList<Properties>();
-     ArrayList <accountHolder> accounts = new ArrayList<accountHolder>();         
+     public static ArrayList <accountHolder> accounts = new ArrayList<accountHolder>();
      ArrayList <Tenant> tenants = new ArrayList<Tenant>();
     
      private JButton but1, but2, but3, but4, but5, but6;
@@ -56,7 +57,7 @@ public class gui extends JFrame implements ActionListener{
             menuBar.add(Admin);
 	  		//this.setLayout(null);
     		
-    		//imported images supported by JButtons
+    		//imported images of the available Properties supported by JButtons
     		Icon b = new ImageIcon(getClass().getResource("house3.png"));//300 168
     		Icon x = new ImageIcon(getClass().getResource("click.png"));
     		Icon c = new ImageIcon(getClass().getResource("house2.png"));
@@ -116,20 +117,20 @@ public class gui extends JFrame implements ActionListener{
       	      os.writeObject(tenants);
       	      os.close();
            }
-	public void save1() throws IOException //A method
-	{
+	       public void save1() throws IOException //A method
+	       {
 
-		ObjectOutputStream os;
-		os = new ObjectOutputStream(new FileOutputStream ("accounts.dat"));
-		os.writeObject(accounts);
-		os.close();
-	}
+		    ObjectOutputStream oos;
+	    	oos = new ObjectOutputStream(new FileOutputStream ("accounts.dat"));
+		    oos.writeObject(accounts);
+		    oos.close();
+	       }
       
            /** loads an array of tenants from the file "tenants.dat"
            */  // CHANGED
            public void open()
-           	 {
-      	       try{
+           {
+      	    try{
       	      ObjectInputStream is;
       	      is = new ObjectInputStream(new FileInputStream ("tenants.dat"));
               tenants  = (ArrayList<Tenant>) is.readObject(); // CHANGED
@@ -138,27 +139,41 @@ public class gui extends JFrame implements ActionListener{
       	       catch(Exception e){
       		   JOptionPane.showMessageDialog(null,"open didn't work");
       		   e.printStackTrace();
-      	       }
+       	       }
       	
              } // end open()
-
-	public void open1()
-	{
-		try{
+	       /*public void open3()
+	        {
+		   try{
 			ObjectInputStream is;
-			is = new ObjectInputStream(new FileInputStream ("tenants.dat"));
-			accounts  = (ArrayList<accountHolder>) is.readObject(); // CHANGED
+			is = new ObjectInputStream(new FileInputStream ("landlord.dat"));
+			landLordBalance= is.readObject(gui); // CHANGED
 			is.close();
-		}
+		    }
 		catch(Exception e){
 			JOptionPane.showMessageDialog(null,"open didn't work");
 			e.printStackTrace();
 		}
 
+	} // end op*/
+
+	       public void open1()
+	       {
+		    try{
+			 ObjectInputStream iis;
+			 iis = new ObjectInputStream(new FileInputStream ("accounts.dat"));
+			 accounts  = (ArrayList<accountHolder>) iis.readObject(); // CHANGED
+			 iis.close();
+		     }
+		     catch(Exception e){
+			 JOptionPane.showMessageDialog(null,"open didn't work");
+			 e.printStackTrace();
+		}
+
 	} // end open()
 
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
     	  // method to load all tenant details  
     	    public void addTenant()
     		{
@@ -188,8 +203,8 @@ public class gui extends JFrame implements ActionListener{
 			}
       	    
 
-	  public static void displayProperties()
-		{
+	       public static void displayProperties()
+		    {
              JTextArea area = new JTextArea();
       	
       	    int numProps = houses.size();  
@@ -211,7 +226,7 @@ public class gui extends JFrame implements ActionListener{
             {
 
             }
-		public void Administrator()
+		    public void lettingAgency()
             {
          	
                 String user = JOptionPane.showInputDialog(null,"Please 'T' for list of tenants or 'p' for list of properties","Tenants!",JOptionPane.INFORMATION_MESSAGE);
@@ -226,7 +241,7 @@ public class gui extends JFrame implements ActionListener{
             }
      
      
-		public void display(){
+		    public void display(){
       	
       	    JTextArea area = new JTextArea();
            // double amount = accHolder.getBalance();
@@ -238,38 +253,43 @@ public class gui extends JFrame implements ActionListener{
       	       for (int i = 0; i<numTenants; i++) 
       	    	area.append("\nTenant no: " + (i+1)+" " + tenants.get(i).toString()+"\n");
 				area.append("\n\nLandLord Balance: " + landLordBalance);
+				try {
+					save();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-      	  		JOptionPane.showMessageDialog(null,area);
-      	}
-      	else
-      	   JOptionPane.showMessageDialog(null,"There are currently no tenants on our system ");
-        }
-        public void display2()
-		{
+				JOptionPane.showMessageDialog(null,area);
+      	     }
+      	     else
+      	     JOptionPane.showMessageDialog(null,"There are currently no tenants on our system ");
+              }
+            public void display2()
+		    {
       	
-      	  JTextArea area1 = new JTextArea();
-			int numAccounts = accounts.size();
+      	     JTextArea area1 = new JTextArea();
+			 int numAccounts = accounts.size();
 
-			if (numAccounts>0) {
+			 if (numAccounts>0) {
       	     
       	     area1.setText("Account Details: \n\n");
       	       
-      	      // for (int j = 0; j<numAccounts; j++)
-      	    	area1.append("\nAccount Holder  " + accHolder.toString()+"\n");
+      	       for (int j = 0; j<numAccounts; j++)
+      	    	area1.append("\nAccount Holder " + (j + 1) +" " + accHolder.toString()+"\n");
      
       	  		JOptionPane.showMessageDialog(null,area1);
-      	}
-      	else
+        	}
+      	    else
       	   JOptionPane.showMessageDialog(null,"!!!You do not have an Account ");
-        }
+            }
          //in this method the information on 6 different properties can be viewed by simply clicking on the image of the property wished to be viewed
-        public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e){
 
         	if(e.getSource() == but1)
         	{
 
 
-        		int confirm = 1, rentC = 1,numTenants = tenants.size(),numAccounts = accounts.size();
+        		int confirm = 1;
         		 s1 = new Properties( 350 ," 14 reeks Av,Muckross ,Killarney  ",4,4," Wall Insulated" ," Oil Fired Heating");
 
 				confirm = JOptionPane.showConfirmDialog(null,s1.toString(),"House Details",JOptionPane.YES_NO_OPTION);
@@ -529,6 +549,7 @@ public class gui extends JFrame implements ActionListener{
         		//area1.setVisible(true);
 			}
 
+
 			if (e.getActionCommand().equals("Admin(Landlord)"))
         	   {
         	   	 int password;
@@ -536,7 +557,7 @@ public class gui extends JFrame implements ActionListener{
 
 				   if(password == 12345678)
         	   	   {
-					   Administrator();
+					   lettingAgency();
 				   }
 
 			   }//create account
@@ -555,43 +576,46 @@ public class gui extends JFrame implements ActionListener{
       	                     	}		
                                  
        			      
-       			      //f.setVisible(true);
+       			     
 			   }
-        	    /*if (e.getActionCommand().equals("Login"))
-        	   {
-        	   	 int password;
-        	   	
-        	   	   password= Integer.parseInt(JOptionPane.showInputDialog("Please enter 8 digit password"));
-        	   	   
-        	   	   while(password != 12345678)
-        	   	    {
-        	   	   	  password= Integer.parseInt(JOptionPane.showInputDialog("Incorrect!!! Please enter 8 digit password"));
-        	   	    }
-        	   	  
-        	   	   display2();
-        	   	  
-        	   }*/
-        	    if (e.getActionCommand().equals("Login"))
-			{
-				int password=12345678;
-				String name = JOptionPane.showInputDialog("Please enter your name: ");
-				password= Integer.parseInt(JOptionPane.showInputDialog(" Please enter password"));
-				//int bankNum = Integer.parseInt(JOptionPane.showInputDialog("Please enter your Bank Number: "));
-				//double balance = Double.parseDouble(JOptionPane.showInputDialog("Balance: "));
-
-				/*while(password != 12345678)
+				if (e.getActionCommand().equals("Login"))
 				{
-					password= Integer.parseInt(JOptionPane.showInputDialog("Incorrect!!! Please enter 8 digit password"));
-				}*/
-				if (accHolder.getName().equals(name) && (password==12345))
+					//int password = 12345678;
+					String name = JOptionPane.showInputDialog("Please enter your name: ");
+					//password= Integer.parseInt(JOptionPane.showInputDialog("Please enter 8 digit password"));
+					int bank = Integer.parseInt(JOptionPane.showInputDialog("Please enter your Bank Number: "));
+					for (int i = 0; i<accounts.size(); i++)
+					if(accHolder.getBankNum() == bank && accHolder.getName().equals(name))
 
-					display2();
+					{
+						display2();
+					}
 
-				try {
-					save1();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+        	   
+        	   /* if (e.getActionCommand().equals("Login"))
+			    {
+				
+				int password=123;
+				String name = JOptionPane.showInputDialog("Please enter your name: ");
+				//password= Integer.parseInt(JOptionPane.showInputDialog(" Please enter password"));
+				//int bank = Integer.parseInt(JOptionPane.showInputDialog("Please enter your Bank Number: "));
+				//double balance = Double.parseDouble(JOptionPane.showInputDialog("Balance: "))
+
+					 for (int j = 0; j<accounts.size(); j++)
+						 if(!name.equals(accounts.get(j).getName())) //&& password == 123);//accHolder.getBankNum()!=bank)
+
+						  {
+					          display2();
+				          }
+						//else
+							//JOptionPane.showMessageDialog(null,"Wrong password or username");*/
+
+
+
+
+
+
+
 			}
         	   
         	   

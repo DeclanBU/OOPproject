@@ -1,60 +1,69 @@
 import java.io.*; 
 public class accountHolder implements Serializable {
 	//Attributes
-	
+	/**This is an instantiable accountHolder class that is needed before you can rent a property
+	 * @author Declan Buckley
+	 * version 1.0 2016   11/17
+	 */
 	
 	public String name;
 	public  int bankNum;
 	public static double balance;
-	private int phone;
 
 	private double landLordBalance;
-	
-	
-	
-	
-	//No agrument constructor
+
+
+
+
+	/**No agrument constructor
+	 * it assigns the default values for the AccountHolder Class*/
 	public accountHolder()
 	{
 		name = "Unknown";
 		balance = 1000;
-		phone = 12345;	
+
 	
 	}
-	//Multi argument constructor
-	public accountHolder(String name,double balance,int phone )
+
+	public accountHolder(String name,double balance )
 	{
-		//setting values for attributes using multi agruments constructor
+		/** Multiple argument constructor method
+		 @param sets name to the  AccountHolder name
+		 @param sets bankNum to the AccountHolders bank number*/
+
 		this.name = name;
 	    this.balance = balance;
-        this.phone = phone;
+
 	}
+	/** Multiple argument constructor method
+	 @param  name sets to the  AccountHolder name
+	 @param  bankNum sets to the AccountHolders bank number
+	 @param  balance sets to AccountHolder balance*/
 	public accountHolder(String name, int bankNum ,double balance)
 	{
 		//setting values for attributes using multi agruments constructor
 		this.name = name;
-		//this.phone = phone;
 		this.bankNum = bankNum;
 		this.balance = balance;
 
 	}
+	/** Accessor method
+	 @return  name returns the name of the AccountHolder object*/
 	public String getName()
 		{
 		return name;
 		}
-	//Accessor Method
-	public int getPhone()
-		{
-		 return phone;
-		 }
-	//Accessor Method
+	/** Accessor method
+	 @return balance returns the balance of the AccountHolder object*/
+
 	public double getBalance()
 	{
 		return balance;
 	}
-	//public double getlandLordBalance()
+	/** Accessor method
+	 @return bankNum returns the bank number of the AccountHolder object*/
 
-	public double getBankNum()
+	public int getBankNum()
 		{
 		 return bankNum;
 		 }
@@ -62,36 +71,34 @@ public class accountHolder implements Serializable {
 		{
 		 return landLordBalance;
 		 }
-	//Mutator Method
+	/** Mutator method
+	 @param name sets the name of the AccountHolder object*/
 	public void setName (String name)
     {
 		this.name = name;
 	}
-	//Mutator Method
-	public void setPhone(int phone)
-	{
-	    this.phone = phone;
-	}
+
+	/** Accessor method
+	 @param bankNum sets the bank number of the AccountHolder object*/
+
 	public void setBankNum(int bankNum)
 	{
 	    this.bankNum = bankNum;
 	}
 	//Mutator Method
+	/** Accessor method
+	@param balance sets the bank number of the AccountHolder object*/
 	public void setBalance(double balance)
     {
 	   this.balance = balance;
 	}
-	public static void deposit(double amount)
-	{
-		if (amount <=balance){
+	public static void deposit(double amount) {
+		if (amount <= balance) {
 			balance -= amount;
 		}
 	}
-	public static void personalAcc(double amount){
-		balance += amount;
-	}
 
-	//toString Mthod which also makes a call to the toString method from the Account class
+	/**toString Method which makes a call to the toString method from the AccountHolder class*/
 	public String toString() {
 
 	return
