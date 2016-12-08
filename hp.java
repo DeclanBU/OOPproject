@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 import static java.nio.channels.Pipe.open;
 
-public class hp extends JFrame {
+public class Hp extends JFrame {
 	JButton submitBut;
 	JTextField numOfRoomsField,priceRangeField,accField;
 	private ImageIcon image1;
@@ -27,11 +27,8 @@ public class hp extends JFrame {
 	public Properties property ,s1,s2,s3,s4,s5,s6;
 	JTextArea area;
 	ArrayList<Properties> realEstate = new ArrayList<Properties>();
-	//public static ArrayList <Properties> houses = new ArrayList<Properties>();
-	//private ImageIcon image2;
-//	private JLabel label2;
 
-    public hp() {
+    public Hp() {
 
 
     	setSize(300,300);
@@ -59,19 +56,23 @@ public class hp extends JFrame {
 	    butt.setBounds(100,0,1000,500);
 	    butt2.addActionListener(new homeListener());
         contentPane.add(butt2);
-
+        
+        //the Properties that are available to the user are 
+ //try this     gui.s1;
         Properties s1 = new Properties( 350 ," 14 reeks Av,Muckross ,Killarney  ",4,4," Wall Insulated" ," Oil Fired Heating");
-		gui.houses.add(s1);
+		Gui.houses.add(s1);
 		Properties s2 = new Properties( 700 ," 69 sheen Av,falls park ,Listowel  ",3,4," Wall Insulated" ," Oil Fired Heating");
-		gui.houses.add(s2);
+		Gui.houses.add(s2);
 		Properties s3 = new Properties( 450 ," 14 reeks Av,oak park ,Tralee  ",3,4," Attic Insulated " ," Under Floor Heating");
-		gui.houses.add(s3);
+		Gui.houses.add(s3);
 		Properties s4 = new Properties( 1000 ," 14 reeks Av,Muckross ,Killarney  ",2,4," Wall Insulated" ," Oil Fired Heating");
-		gui.houses.add(s4);
+		Gui.houses.add(s4);
 		Properties s5 = new Properties( 220 ," 22 diver Av,Main Street ,Castleisland  ",1,7,"Dry lined walls" ,"Air to water Unit");
-		gui.houses.add(s5);
+		Gui.houses.add(s5);
 		Properties s6 = new Properties( 1200 ," 14 reeks Av,Muckross ,Killarney  ",6,4," Wall Insulated" ," Oil Fired Heating");
-		gui.houses.add(s6);
+		Gui.houses.add(s6);
+		
+
 
 	}
     
@@ -82,13 +83,14 @@ public class hp extends JFrame {
         	
         	if(e.getSource() == butt)
         	{
-        		//int confirm = 1, rentC = 1;
-        		gui g = new gui();
+        		int confirm = 1, rentC = 1;
+        		Gui g = new Gui();
 
 					g.open();
 					g.open1();
+					g.open3();
 				    System.out.println(g.houses);
-				//g.accHolder = g.accounts.get(0);
+				g.accHolder = g.accounts.get(0);
 
 
 
@@ -113,7 +115,7 @@ public class hp extends JFrame {
 
 				 JLabel lab = new JLabel("Please enter both fields!!");
 				 f.add(lab);
-        	   	 JLabel nameLabel = new JLabel("Enter prefered Num of Bedrooms:");
+        	   	 JLabel nameLabel = new JLabel("Minimum Num of Bedrooms needed:");
         	   	 f.add(nameLabel);
         	   	 numOfRoomsField = new JTextField(4);
         		 f.add(numOfRoomsField);
@@ -136,72 +138,59 @@ public class hp extends JFrame {
                  JTextField tf = new JTextField();
                  f.add(tf);
 
-			}
-        }
-     }
-	private class submitListener implements ActionListener{
-
-		public void actionPerformed(ActionEvent e)
-		{
-
-			String text="Noting ";
-		    String numBeds = numOfRoomsField.getText();
-		    String priceRange = priceRangeField.getText();
+		    	}
+              }
+            }
+             public static void main(String [] args)
+             {
 
 
+		 		Hp img = new Hp();
+        		img.setVisible(true);
+        		img.setTitle("VFM Properties");
+    			img.setSize(400,400);
+    			img.setLocationRelativeTo(null);
+    			img.setResizable(false);
+        		img.setDefaultCloseOperation( EXIT_ON_CLOSE );
 
-			if (e.getSource() ==  submitBut )
-			  {
+    		}
+        	private class submitListener implements ActionListener{
+              public void actionPerformed(ActionEvent e)
+		      {
+
+		    	String numBeds = numOfRoomsField.getText();
+		    	String priceRange = priceRangeField.getText();
+
+
+
+				if (e.getSource() ==  submitBut )
+			  	{
 				  searchProp(priceRange,numBeds);//Taking in the arguements here
-			  }
-		  }
+			  	}
+		  	 }
 		
-		}
-		private void searchProp(String priceRange ,String numBeds  )
-		{
-
+	          //the search option is performed by the searchProp method 
+			}
+			private void searchProp(String priceRange ,String numBeds  )
+			{
+             
 			JTextArea ar = new JTextArea("          Always new Properties");
-			for (int i=0;i < gui.houses.size();i++)
+			for (int i=0;i < Gui.houses.size();i++)
 			      {
-				    if (gui.houses.get(i).getRent() <= Integer.parseInt(priceRange) && gui.houses.get(i).getBeds() >= Integer.parseInt(numBeds))
-					//ar.append(String.valueOf(gui.houses.get(i).toString()));
-				   ar.append("\nProperty no: " + (i + 1) + " " + gui.houses.get(i).toString() + "\n");
+			      	/*all the houses that are under or equal to the price entered will be returned and providing the price is within range houses that have 
+			      	more rooms than are entered will also be returned*/     
+				    
+				    if (Gui.houses.get(i).getRent() <= Integer.parseInt(priceRange) && Gui.houses.get(i).getBeds() >= Integer.parseInt(numBeds))
+				
+				      ar.append("\nProperty no: " + (i + 1) + " " + Gui.houses.get(i).toString() + "\n");
 
-			      } //JOptionPane.showMessageDialog(null,"Nothing available");
+			      } 
 			         JOptionPane.showMessageDialog(null, ar);
-			       //gui.houses.get(i).toString();
-
-
-
-			//JOptionPane.showMessageDialog(null, "Nothing available");
-
-
-			area.setVisible(true);
+			       
+            area.setVisible(true);
 			numOfRoomsField.setVisible(true);
 
-			//displayProperties();
-			//System.out.print(s1.getAddress().toString());
-			//JOptionPane.showMessageDialog(null,s1.toString()+s2.toString());
-
+			
 		}
-				
-				//tf.add(s1.toString());
-
-
-     public static void main(String [] args)
-     {
-
-
-		 hp img = new hp();
-        img.setVisible(true);
-        
-        img.setTitle("VFM Properties");
-    	img.setSize(400,400);
-    	img.setLocationRelativeTo(null);
-    	img.setResizable(false);
-        img.setDefaultCloseOperation( EXIT_ON_CLOSE );
-
-    }
-   
      
 }

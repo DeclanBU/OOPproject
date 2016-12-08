@@ -9,22 +9,28 @@
 
 public class Properties {
 
-    private float monthlyRent; 
-    private String propAddress;
-    private int noBeds;
-    private RenewableRating energyRate;    
-    
+
+    public static Properties s1,s2,s3,s4,s5,s6;
+    public float monthlyRent;
+    public String propAddress;
+    public int noBeds;
+    public RenewableRating energyRate;
+
    
    
-    public Properties()
+    /*public Properties()
     { 
         setRent(0.0f);
     	setPropAddress("Unknown");
     	setNoBeds(0);
     	setEnergyRate(0 ,"Unknown" ,"Unknown");
-    }
+    }*/
     
-    
+     public Properties(float rent ,String propAddress )
+    {
+    	setRent(rent);
+    	setPropAddress(propAddress);
+    }	
     public Properties(float rent ,String propAddress ,int noBeds ,RenewableRating energyRate)
     {
     	setRent(rent);
@@ -39,7 +45,14 @@ public class Properties {
     	setRent(rent);
     	setPropAddress(propAddress);
     	setNoBeds(noBeds);
-    	setEnergyRate(windowRating ,insulation ,heatingType);
+    	energyRate = new RenewableRating(windowRating ,insulation ,heatingType);
+    }
+     public Properties()
+    {
+      monthlyRent = 0;
+      propAddress = "Unknown";
+      noBeds = 0;
+      energyRate = new RenewableRating();
     }
    
    //mutator methods
@@ -59,7 +72,7 @@ public class Properties {
 	 {
 	 	return energyRate;
 	 }
-    
+
     
     public void setEnergyRate(RenewableRating energyRate)
     {
@@ -67,7 +80,7 @@ public class Properties {
     }
     public void setEnergyRate(int windowRating ,String insulation ,String heatingType)
     {
-        this.energyRate = new RenewableRating(windowRating,insulation,heatingType);	
+        this.energyRate = new RenewableRating(windowRating,insulation,heatingType);	//an instance of RenewableRating is created --composite class
     }
     
     
@@ -84,10 +97,10 @@ public class Properties {
     {
     	return noBeds;
     }
-    
+
     public String toString()
     {
-    	return "Monthly Rent:" + getRent()+ "\nProperty Address:" + getAddress() + "No of Beds:" + getBeds() + "Energy Rating:" + getEnergyRate();
+    	return "\nMonthly Rent: $" + getRent()+ "\nProperty Address:" + getAddress() + "\nNo of Beds:" + getBeds() + "\n\nSEAI-BUILDING ENERGY RATING" + getEnergyRate();
     }	
     
           

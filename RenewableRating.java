@@ -27,7 +27,7 @@ public class RenewableRating {
     {
     	this. windowRating=winRating;
     }
-     public void setInsulation(String insulation)
+    public void setInsulation(String insulation)
     {
     	this. insulation=insulation;
     }	
@@ -43,12 +43,12 @@ public class RenewableRating {
     {
     	return insulation;
     }
-     public String getHeatingType()
+    public String getHeatingType()
     {
     	return heatingType;
     }
     public String toString()
     {
-    	return "Window Rating:" + getWindowRating() + "Insulation Type:" + getInsulation() + "Heating Type:" + getHeatingType();
+    	return "\nBER Rating:" + getWindowRating() + "\nInsulation Type:" + getInsulation() + "\nHeating Type:" + getHeatingType() + "\n\nClick below if you wish to take this Property!!  \n\n";
     }				
 }

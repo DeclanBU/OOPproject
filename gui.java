@@ -22,7 +22,7 @@ import static java.lang.System.*;
 
 @SuppressWarnings({"unchecked", "deprecation"})
 
-public class gui extends JFrame implements ActionListener{
+public class Gui extends JFrame implements ActionListener{
      
      //JTextField nameField,bankNumField,accField;	
      JMenu fileMenu,Admin;
@@ -30,18 +30,18 @@ public class gui extends JFrame implements ActionListener{
      JButton bal;
      Tenant tenant;
      accountHolder accHolder;
-	 double landLordBalance;
-
+	public static double landLordBalance;
 	 public Properties  s1,s2,s3,s4,s5,s6;
      public static ArrayList <Properties> houses = new ArrayList<Properties>();
-     public static ArrayList <accountHolder> accounts = new ArrayList<accountHolder>();
+
+     ArrayList <accountHolder> accounts = new ArrayList<accountHolder>();         
      ArrayList <Tenant> tenants = new ArrayList<Tenant>();
     
      private JButton but1, but2, but3, but4, but5, but6;
     		
     
     	
-    	public gui(){
+    	public Gui(){
     		super("Properties-To Let");
     		Container cPane = new Container();
     		setLayout(new FlowLayout());
@@ -120,11 +120,19 @@ public class gui extends JFrame implements ActionListener{
 	       public void save1() throws IOException //A method
 	       {
 
-		    ObjectOutputStream oos;
-	    	oos = new ObjectOutputStream(new FileOutputStream ("accounts.dat"));
-		    oos.writeObject(accounts);
-		    oos.close();
+		    ObjectOutputStream os;
+	    	os = new ObjectOutputStream(new FileOutputStream ("accounts.dat"));
+		    os.writeObject(accounts);
+		    os.close();
 	       }
+			public void save3() throws IOException //A method
+			{
+
+			ObjectOutputStream os;
+			os = new ObjectOutputStream(new FileOutputStream ("landlordBalance.dat"));
+			os.writeObject(new Double(landLordBalance));
+			os.close();
+			}
       
            /** loads an array of tenants from the file "tenants.dat"
            */  // CHANGED
@@ -142,31 +150,32 @@ public class gui extends JFrame implements ActionListener{
        	       }
       	
              } // end open()
-	       /*public void open3()
-	        {
-		   try{
+	public void open3()
+	{
+		try{
 			ObjectInputStream is;
-			is = new ObjectInputStream(new FileInputStream ("landlord.dat"));
-			landLordBalance= is.readObject(gui); // CHANGED
+			is = new ObjectInputStream(new FileInputStream ("landlordBalance.dat"));
+			landLordBalance  = (Double) is.readObject(); // CHANGED
 			is.close();
-		    }
+			//save3();
+		}
 		catch(Exception e){
 			JOptionPane.showMessageDialog(null,"open didn't work");
 			e.printStackTrace();
 		}
 
-	} // end op*/
+	} // end open()
 
 	       public void open1()
 	       {
 		    try{
-			 ObjectInputStream iis;
-			 iis = new ObjectInputStream(new FileInputStream ("accounts.dat"));
-			 accounts  = (ArrayList<accountHolder>) iis.readObject(); // CHANGED
-			 iis.close();
+			 ObjectInputStream is;
+			 is = new ObjectInputStream(new FileInputStream ("accounts.dat"));
+			 accounts  = (ArrayList<accountHolder>) is.readObject(); // CHANGED
+			 is.close();
 		     }
 		     catch(Exception e){
-			 JOptionPane.showMessageDialog(null,"open didn't work");
+			 JOptionPane.showMessageDialog(null,"opening accounts.dat didn't work");
 			 e.printStackTrace();
 		}
 
@@ -253,13 +262,8 @@ public class gui extends JFrame implements ActionListener{
       	       for (int i = 0; i<numTenants; i++) 
       	    	area.append("\nTenant no: " + (i+1)+" " + tenants.get(i).toString()+"\n");
 				area.append("\n\nLandLord Balance: " + landLordBalance);
-				try {
-					save();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 
-				JOptionPane.showMessageDialog(null,area);
+      	  		JOptionPane.showMessageDialog(null,area);
       	     }
       	     else
       	     JOptionPane.showMessageDialog(null,"There are currently no tenants on our system ");
@@ -274,8 +278,8 @@ public class gui extends JFrame implements ActionListener{
       	     
       	     area1.setText("Account Details: \n\n");
       	       
-      	       for (int j = 0; j<numAccounts; j++)
-      	    	area1.append("\nAccount Holder " + (j + 1) +" " + accHolder.toString()+"\n");
+      	      // for (int j = 0; j<numAccounts; j++)
+      	    	area1.append("\nAccount Holder  " + accHolder.toString()+"\n");
      
       	  		JOptionPane.showMessageDialog(null,area1);
         	}
@@ -289,7 +293,7 @@ public class gui extends JFrame implements ActionListener{
         	{
 
 
-        		int confirm = 1;
+        		int confirm = 1, rentC = 1,numTenants = tenants.size(),numAccounts = accounts.size();
         		 s1 = new Properties( 350 ," 14 reeks Av,Muckross ,Killarney  ",4,4," Wall Insulated" ," Oil Fired Heating");
 
 				confirm = JOptionPane.showConfirmDialog(null,s1.toString(),"House Details",JOptionPane.YES_NO_OPTION);
@@ -308,6 +312,8 @@ public class gui extends JFrame implements ActionListener{
 
 							try {
 								save();
+								save1();
+								save3();
 								JOptionPane.showMessageDialog(null, "Data saved successfully");
 							} // try
 							catch (IOException f) {
@@ -352,6 +358,8 @@ public class gui extends JFrame implements ActionListener{
 
 							try {
 								save();
+								save1();
+								save3();
 								JOptionPane.showMessageDialog(null, "Data saved successfully");
 							} // try
 							catch (IOException f) {
@@ -396,6 +404,8 @@ public class gui extends JFrame implements ActionListener{
 
 							try {
 								save();
+								save1();
+								save3();
 								JOptionPane.showMessageDialog(null, "Data saved successfully");
 							} // try
 							catch (IOException f) {
@@ -439,7 +449,9 @@ public class gui extends JFrame implements ActionListener{
 							  JOptionPane.showMessageDialog(null, "Thank you " + accHolder.getName() + "\n\nLease terms agreed for the Property " + s4.getAddress() + " \nThe first months rent of " + s4.getRent() + " will be taken from your bank account.");
 
 							  try {
-								  save();
+								save();
+								save1();
+								save3();
 								  JOptionPane.showMessageDialog(null, "Data saved successfully");
 							  } // try
 							  catch (IOException f) {
@@ -483,6 +495,8 @@ public class gui extends JFrame implements ActionListener{
 
 							 try {
 								 save();
+								save1();
+								save3();
 								 JOptionPane.showMessageDialog(null, "Data saved successfully");
 							 } // try
 							 catch (IOException f) {
@@ -525,7 +539,9 @@ public class gui extends JFrame implements ActionListener{
 							  JOptionPane.showMessageDialog(null, "Thank you " + accHolder.getName() + "\n\nLease terms agreed for the Property " + s6.getAddress() + " \nThe first months rent of " + s6.getRent() + " will be taken from your bank account.");
 
 							  try {
-								save();
+							  	save();
+							  	save1();
+								save3();
 								JOptionPane.showMessageDialog(null, "Data saved successfully");
 							  } // try
 							  catch (IOException f) {
@@ -549,7 +565,6 @@ public class gui extends JFrame implements ActionListener{
         		//area1.setVisible(true);
 			}
 
-
 			if (e.getActionCommand().equals("Admin(Landlord)"))
         	   {
         	   	 int password;
@@ -567,6 +582,8 @@ public class gui extends JFrame implements ActionListener{
 
 				               try{
       	 				    	save();
+								save1();
+								save3();
       	 	                     JOptionPane.showMessageDialog(null,"Data saved successfully");
       	                       } // try
         	    	         catch (IOException f){
@@ -578,44 +595,45 @@ public class gui extends JFrame implements ActionListener{
        			      
        			     
 			   }
-				if (e.getActionCommand().equals("Login"))
+        	   
+        	   /* if (e.getActionCommand().equals("Login"))
+			    {
+				
+				int password=12345678;
+				String name = JOptionPane.showInputDialog("Please enter your name: ");
+				password= Integer.parseInt(JOptionPane.showInputDialog(" Please enter password"));
+				//int bankNum = Integer.parseInt(JOptionPane.showInputDialog("Please enter your Bank Number: "));
+				//double balance = Double.parseDouble(JOptionPane.showInputDialog("Balance: "));
+
+				/*while(password != 12345678)
+				{
+					password= Integer.parseInt(JOptionPane.showInputDialog("Incorrect!!! Please enter 8 digit password"));
+				}
+				if (accHolder.getName().equals(name) && (password==12345))
+
+					display2();*/
+						if (e.getActionCommand().equals("Login"))
 				{
 					//int password = 12345678;
 					String name = JOptionPane.showInputDialog("Please enter your name: ");
 					//password= Integer.parseInt(JOptionPane.showInputDialog("Please enter 8 digit password"));
 					int bank = Integer.parseInt(JOptionPane.showInputDialog("Please enter your Bank Number: "));
 					for (int i = 0; i<accounts.size(); i++)
+					{
+					accHolder = accounts.get(i);
 					if(accHolder.getBankNum() == bank && accHolder.getName().equals(name))
 
 					{
 						display2();
 					}
-
-        	   
-        	   /* if (e.getActionCommand().equals("Login"))
-			    {
-				
-				int password=123;
-				String name = JOptionPane.showInputDialog("Please enter your name: ");
-				//password= Integer.parseInt(JOptionPane.showInputDialog(" Please enter password"));
-				//int bank = Integer.parseInt(JOptionPane.showInputDialog("Please enter your Bank Number: "));
-				//double balance = Double.parseDouble(JOptionPane.showInputDialog("Balance: "))
-
-					 for (int j = 0; j<accounts.size(); j++)
-						 if(!name.equals(accounts.get(j).getName())) //&& password == 123);//accHolder.getBankNum()!=bank)
-
-						  {
-					          display2();
-				          }
-						//else
-							//JOptionPane.showMessageDialog(null,"Wrong password or username");*/
+					}
 
 
-
-
-
-
-
+				try {
+					save1();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
         	   
         	   
